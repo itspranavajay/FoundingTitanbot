@@ -29,3 +29,4 @@ if '%errorlevel%' NEQ '0' (
 :: stops the service and then starts it
 net stop FoundingTitanRobot
 net start FoundingTitanRobot
+#not my bot
