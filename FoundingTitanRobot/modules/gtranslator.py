@@ -9,11 +9,7 @@ from FoundingTitanRobot.modules.disable import DisableAbleCommandHandler
 
 def totranslate(update: Update, context: CallbackContext):
     message = update.effective_message
-    problem_lang_code = []
-    for key in LANGUAGES:
-        if "-" in key:
-            problem_lang_code.append(key)
-
+    problem_lang_code = [key for key in LANGUAGES if "-" in key]
     try:
         if message.reply_to_message:
             args = update.effective_message.text.split(None, 1)

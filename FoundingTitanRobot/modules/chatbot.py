@@ -57,28 +57,24 @@ async def chatbot_status(_, message):
         message.continue_propagation()
     status = message.text.split(None, 1)[1]
     chat_id = message.chat.id
-    if status == "ON" or status == "on" or status == "On":
+    if status in ["ON", "on", "On"]:
         lel = await edit_or_reply(message, "`Processing...`")
         lol = add_chat(int(message.chat.id))
         if not lol:
             await lel.edit("AI is Already enabled In This Chat")
             return
-        await lel.edit(
-            f"AI Successfully Enabled For this Chat"
-        )
+        await lel.edit('AI Successfully Enabled For this Chat')
 
-    elif status == "OFF" or status == "off" or status == "Off":
+    elif status in ["OFF", "off", "Off"]:
         lel = await edit_or_reply(message, "`Processing...`")
         Escobar = remove_chat(int(message.chat.id))
         if not Escobar:
             await lel.edit("AI Was Not Enabled In This Chat")
             return
-        await lel.edit(
-            f" Successfully Disabled AI For This Chat"
-        )
+        await lel.edit(' Successfully Disabled AI For This Chat')
 
-    elif status == "EN" or status == "en" or status == "english":
-        if not chat_id in en_chats:
+    elif status in ["EN", "en", "english"]:
+        if chat_id not in en_chats:
             en_chats.append(chat_id)
             await message.reply_text("English Only AI Enabled!")
             return
@@ -128,12 +124,6 @@ async def chatbot_function(client, message):
         response = response.replace("female", "male")
 
         pro = response
-        try:
-            await eren.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
-
     else:
         u = msg.split()
         emj = extract_emojis(msg)
@@ -168,7 +158,7 @@ async def chatbot_function(client, message):
         except:
             return
         test = rm
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             try:
                 test = translator.translate(test, lang_tgt="en")
             except:
@@ -177,7 +167,7 @@ async def chatbot_function(client, message):
 
         test = test.replace("Eren", "aco")
         test = test.replace("eren", "aco")
-        
+
         response = await lunaQuery(
             test, message.from_user.id if message.from_user else 0
         )
@@ -188,16 +178,16 @@ async def chatbot_function(client, message):
         response = response.replace("female", "male")
 
         pro = response
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             try:
                 pro = translator.translate(pro, lang_tgt=lan[0])
             except:
                 return
-        try:
-            await eren.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
+    try:
+        await eren.send_chat_action(message.chat.id, "typing")
+        await message.reply_text(pro)
+    except CFError:
+        return
 
 
 @eren.on_message(
@@ -240,7 +230,7 @@ async def sasuke(client, message):
     except:
         return
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             test = translator.translate(test, lang_tgt="en")
         except:
@@ -251,7 +241,7 @@ async def sasuke(client, message):
     # Kang with the credits bitches @InukaASiTH
     test = test.replace("aco", "Eren")
     test = test.replace("aco", "eren")    
-    
+
     response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
     response = response.replace("Aco", "Eren")
     response = response.replace("aco", "eren")
@@ -260,7 +250,7 @@ async def sasuke(client, message):
     response = response.replace("female", "male")
 
     pro = response
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
         await eren.send_chat_action(message.chat.id, "typing")
@@ -315,7 +305,7 @@ async def sasuke(client, message):
     except:
         return
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             test = translator.translate(test, lang_tgt="en")
         except:
@@ -333,7 +323,7 @@ async def sasuke(client, message):
     response = response.replace("female", "male")
 
     pro = response
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         try:
             pro = translator.translate(pro, lang_tgt=lan[0])
         except Exception:

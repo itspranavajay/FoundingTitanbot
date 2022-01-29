@@ -34,9 +34,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     )
     quit(1)
 
-ENV = bool(os.environ.get("ENV", False))
-
-if ENV:
+if ENV := bool(os.environ.get("ENV", False)):
     TOKEN = os.environ.get("TOKEN", None)
 
     try:
@@ -48,23 +46,23 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
-        DRAGONS = set(int(x) for x in os.environ.get("TITANSHIFTERS", "").split())
-        DEV_USERS = set(int(x) for x in os.environ.get("ACKERMANS", "").split())
+        DRAGONS = {int(x) for x in os.environ.get("TITANSHIFTERS", "").split()}
+        DEV_USERS = {int(x) for x in os.environ.get("ACKERMANS", "").split()}
     except ValueError:
         raise Exception("Your sudo or dev users list does not contain valid integers.")
 
     try:
-        DEMONS = set(int(x) for x in os.environ.get("ROYALS", "").split())
+        DEMONS = {int(x) for x in os.environ.get("ROYALS", "").split()}
     except ValueError:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-        WOLVES = set(int(x) for x in os.environ.get("GARRISONS", "").split())
+        WOLVES = {int(x) for x in os.environ.get("GARRISONS", "").split()}
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGERS = set(int(x) for x in os.environ.get("SCOUTS", "").split())
+        TIGERS = {int(x) for x in os.environ.get("SCOUTS", "").split()}
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
 
@@ -101,10 +99,10 @@ if ENV:
     ARQ_API_URL =  "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
-    
+
 
     try:
-        BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
+        BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
@@ -122,23 +120,23 @@ else:
     OWNER_USERNAME = Config.OWNER_USERNAME
     ALLOW_CHATS = Config.ALLOW_CHATS
     try:
-        DRAGONS = set(int(x) for x in Config.TITANSHIFTERS or [])
-        DEV_USERS = set(int(x) for x in Config.ACKERMANS or [])
+        DRAGONS = {int(x) for x in Config.TITANSHIFTERS or []}
+        DEV_USERS = {int(x) for x in Config.ACKERMANS or []}
     except ValueError:
         raise Exception("Your sudo or dev users list does not contain valid integers.")
 
     try:
-        DEMONS = set(int(x) for x in Config.ROYALS or [])
+        DEMONS = {int(x) for x in Config.ROYALS or []}
     except ValueError:
         raise Exception("Your support users list does not contain valid integers.")
 
     try:
-        WOLVES = set(int(x) for x in Config.GARRISONS or [])
+        WOLVES = {int(x) for x in Config.GARRISONS or []}
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGERS = set(int(x) for x in Config.SCOUTS or [])
+        TIGERS = {int(x) for x in Config.SCOUTS or []}
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
 
@@ -177,10 +175,10 @@ else:
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
 
     try:
-        BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
+        BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
-        
+
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
@@ -202,7 +200,7 @@ finally:
    REDIS.ping()
 
    LOGGER.info("Connection to the Redis Database Established Successfully!")
-    
+
 
 if not SPAMWATCH_API:
     sw = None

@@ -25,8 +25,7 @@ def blackliststicker(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     bot, args = context.bot, context.args
-    conn = connected(bot, update, chat, user.id, need_admin=False)
-    if conn:
+    if conn := connected(bot, update, chat, user.id, need_admin=False):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -73,8 +72,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
     user = update.effective_user  # type: Optional[User]
     words = msg.text.split(None, 1)
     bot = context.bot
-    conn = connected(bot, update, chat, user.id)
-    if conn:
+    if conn := connected(bot, update, chat, user.id):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -165,8 +163,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
     user = update.effective_user  # type: Optional[User]
     words = msg.text.split(None, 1)
     bot = context.bot
-    conn = connected(bot, update, chat, user.id)
-    if conn:
+    if conn := connected(bot, update, chat, user.id):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -184,8 +181,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
 
         successful = 0
         for trigger in to_unblacklist:
-            success = sql.rm_from_stickers(chat_id, trigger.lower())
-            if success:
+            if success := sql.rm_from_stickers(chat_id, trigger.lower()):
                 successful += 1
 
         if len(to_unblacklist) == 1:
@@ -231,9 +227,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
         if trigger is None:
             send_message(update.effective_message, "Sticker is invalid!")
             return
-        success = sql.rm_from_stickers(chat_id, trigger.lower())
-
-        if success:
+        if success := sql.rm_from_stickers(chat_id, trigger.lower()):
             send_message(
                 update.effective_message,
                 "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(
@@ -415,8 +409,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     return
                 elif getmode == 4:
                     message.delete()
-                    res = chat.unban_member(update.effective_user.id)
-                    if res:
+                    if res := chat.unban_member(update.effective_user.id):
                         bot.sendMessage(
                             chat.id,
                             "{} kicked because using '{}' which in blacklist stickers".format(

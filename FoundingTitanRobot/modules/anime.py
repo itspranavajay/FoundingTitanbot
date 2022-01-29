@@ -21,7 +21,7 @@ close_btn = "Close ❌"
 def shorten(description, info="anilist.co"):
     msg = ""
     if len(description) > 700:
-        description = description[0:500] + "...."
+        description = description[:500] + "...."
         msg += f"\n*Description*: _{description}_[Read More]({info})"
     else:
         msg += f"\n*Description*:_{description}_"
@@ -283,8 +283,7 @@ def character(update: Update, context: CallbackContext):
         description = f"{json['description']}"
         site_url = json.get("siteUrl")
         msg += shorten(description, site_url)
-        image = json.get("image", None)
-        if image:
+        if image := json.get("image", None):
             image = image.get("large")
             update.effective_message.reply_photo(
                 photo=image,
@@ -476,9 +475,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {"class": "post-title"})
-
-        if search_result:
+        if search_result := soup.find_all("h2", {"class": "post-title"}):
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KaizokuAnime: \n"
             for entry in search_result:
                 post_link = "https://animekaizoku.com/" + entry.a["href"]

@@ -106,14 +106,13 @@ def rban(update: Update, context: CallbackContext):
     try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
-        if excp.message == "Chat not found":
-            message.reply_text(
-                "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
-            )
-            return
-        else:
+        if excp.message != "Chat not found":
             raise
 
+        message.reply_text(
+            "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
+        )
+        return
     if chat.type == "private":
         message.reply_text("I'm sorry, but that's a private chat!")
         return
@@ -130,12 +129,11 @@ def rban(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user")
-            return
-        else:
+        if excp.message != "User not found":
             raise
 
+        message.reply_text("I can't seem to find this user")
+        return
     if is_user_ban_protected(chat, user_id, member):
         message.reply_text("I really wish I could ban admins...")
         return
@@ -189,14 +187,13 @@ def runban(update: Update, context: CallbackContext):
     try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
-        if excp.message == "Chat not found":
-            message.reply_text(
-                "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
-            )
-            return
-        else:
+        if excp.message != "Chat not found":
             raise
 
+        message.reply_text(
+            "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
+        )
+        return
     if chat.type == "private":
         message.reply_text("I'm sorry, but that's a private chat!")
         return
@@ -213,12 +210,11 @@ def runban(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user there")
-            return
-        else:
+        if excp.message != "User not found":
             raise
 
+        message.reply_text("I can't seem to find this user there")
+        return
     if is_user_in_chat(chat, user_id):
         message.reply_text(
             "Why are you trying to remotely unban someone that's already in that chat?",
@@ -274,14 +270,13 @@ def rkick(update: Update, context: CallbackContext):
     try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
-        if excp.message == "Chat not found":
-            message.reply_text(
-                "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
-            )
-            return
-        else:
+        if excp.message != "Chat not found":
             raise
 
+        message.reply_text(
+            "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
+        )
+        return
     if chat.type == "private":
         message.reply_text("I'm sorry, but that's a private chat!")
         return
@@ -298,12 +293,11 @@ def rkick(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user")
-            return
-        else:
+        if excp.message != "User not found":
             raise
 
+        message.reply_text("I can't seem to find this user")
+        return
     if is_user_ban_protected(chat, user_id, member):
         message.reply_text("I really wish I could punch admins...")
         return
@@ -357,14 +351,13 @@ def rmute(update: Update, context: CallbackContext):
     try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
-        if excp.message == "Chat not found":
-            message.reply_text(
-                "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
-            )
-            return
-        else:
+        if excp.message != "Chat not found":
             raise
 
+        message.reply_text(
+            "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
+        )
+        return
     if chat.type == "private":
         message.reply_text("I'm sorry, but that's a private chat!")
         return
@@ -381,12 +374,11 @@ def rmute(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user")
-            return
-        else:
+        if excp.message != "User not found":
             raise
 
+        message.reply_text("I can't seem to find this user")
+        return
     if is_user_ban_protected(chat, user_id, member):
         message.reply_text("I really wish I could mute admins...")
         return
@@ -442,14 +434,13 @@ def runmute(update: Update, context: CallbackContext):
     try:
         chat = bot.get_chat(chat_id.split()[0])
     except BadRequest as excp:
-        if excp.message == "Chat not found":
-            message.reply_text(
-                "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
-            )
-            return
-        else:
+        if excp.message != "Chat not found":
             raise
 
+        message.reply_text(
+            "Chat not found! Make sure you entered a valid chat ID and I'm part of that chat.",
+        )
+        return
     if chat.type == "private":
         message.reply_text("I'm sorry, but that's a private chat!")
         return
@@ -466,21 +457,19 @@ def runmute(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user there")
-            return
-        else:
+        if excp.message != "User not found":
             raise
 
-    if is_user_in_chat(chat, user_id):
-        if (
-            member.can_send_messages
-            and member.can_send_media_messages
-            and member.can_send_other_messages
-            and member.can_add_web_page_previews
-        ):
-            message.reply_text("This user already has the right to speak in that chat.")
-            return
+        message.reply_text("I can't seem to find this user there")
+        return
+    if is_user_in_chat(chat, user_id) and (
+        member.can_send_messages
+        and member.can_send_media_messages
+        and member.can_send_other_messages
+        and member.can_add_web_page_previews
+    ):
+        message.reply_text("This user already has the right to speak in that chat.")
+        return
 
     if user_id == bot.id:
         message.reply_text("I'm not gonna UNMUTE myself, I'm an admin there!")
